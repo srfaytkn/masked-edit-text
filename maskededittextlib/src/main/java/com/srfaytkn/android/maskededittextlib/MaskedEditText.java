@@ -1,4 +1,4 @@
-package com.srfaytkn.android.lib;
+package com.srfaytkn.android.maskededittextlib;
 
 
 import android.content.Context;

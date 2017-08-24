@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.srfaytkn.android.lib.MaskedEditText;
+import com.srfaytkn.android.maskededittextlib.MaskedEditText;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
