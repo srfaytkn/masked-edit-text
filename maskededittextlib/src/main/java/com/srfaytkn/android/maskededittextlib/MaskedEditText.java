@@ -24,7 +24,8 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
     private String allowedChars;
     private String completeWith;
     private char maskedSymbol = '#';
-    private boolean lock;
+    private boolean locked;
+    private String lastText = "";
 
     public MaskedEditText(Context context) {
         super(context);
@@ -62,6 +63,7 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(mask.length());
         setFilters(filters);
+        addText();
     }
 
     private void setUpAllowedChars() {
@@ -77,8 +79,7 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
             stringBuilder.append(s);
         }
 
-        allowedChars = String.valueOf(stringBuilder);
-        setKeyListener(DigitsKeyListener.getInstance(allowedChars));
+        setKeyListener(DigitsKeyListener.getInstance(String.valueOf(stringBuilder)));
     }
 
     public String getCompletedText() {
@@ -101,12 +102,54 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
         char[] maskChars = mask.toCharArray();
 
         for (int i = 0; i < textChars.length; i++) {
-            if (maskChars[i] == maskedSymbol) {
+            if (maskChars[i] == maskedSymbol && allowedChars.indexOf(textChars[i]) > -1) {
                 text.append(textChars[i]);
             }
         }
 
         return text.toString();
+    }
+
+    private void addText() {
+        Editable s = getEditableText();
+        if (locked) {
+            return;
+        }
+
+        locked = true;
+
+        if (lastText.trim().equals(s.toString().trim()) && s.length() > 0) {
+            int startIndex = s.length();
+
+            for (; startIndex > 0; startIndex--) {
+                if (mask.charAt(startIndex) == maskedSymbol) {
+                    break;
+                }
+            }
+
+            s.delete(startIndex, s.length());
+        }
+
+        String text = getUnMaskedText().trim();
+        StringBuilder stringBuilder = new StringBuilder();
+        int textIndex = 0;
+
+        for (int index = 0; index < mask.length(); index++) {
+            if (mask.charAt(index) != maskedSymbol) {
+                stringBuilder.append(mask.charAt(index));
+            } else {
+                if (text.length() <= textIndex) {
+                    break;
+                }
+                stringBuilder.append(text.charAt(textIndex));
+                textIndex++;
+            }
+        }
+
+        lastText = stringBuilder.toString();
+        s.replace(0, s.length(), lastText);
+
+        locked = false;
     }
 
     @Override
@@ -121,28 +164,6 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s.length() <= 0) {
-            return;
-        }
-
-        int index = s.length() - 1;
-        lock = true;
-
-        if (mask.charAt(index) != maskedSymbol && mask.charAt(index) != s.charAt(index)) {
-            s.insert(index, String.valueOf(mask.charAt(index)));
-        }
-        lock = false;
-    }
-
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        if (text.length() > 1) {
-            setText("");
-            for (char c : text.toString().toCharArray()) {
-                append(String.valueOf(c));
-            }
-            return;
-        }
-        super.setText(text, type);
+        addText();
     }
 }
