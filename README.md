@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/srfaytkn/masked-edit-text.svg)](https://jitpack.io/#srfaytkn/masked-edit-text)
+
 # Setup
 ## Dependency
 ```gradle
