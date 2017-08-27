@@ -11,7 +11,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.srfaytkn:masked-edit-text:1.0.2'
+    implementation 'com.github.srfaytkn:masked-edit-text:1.0.1'
 }
 ```
 ## Layout
