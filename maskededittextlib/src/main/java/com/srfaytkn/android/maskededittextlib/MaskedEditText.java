@@ -166,4 +166,16 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
     public void afterTextChanged(Editable s) {
         addText();
     }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        if (text.length() > 1) {
+            setText("");
+            for (char c : text.toString().toCharArray()) {
+                append(String.valueOf(c));
+            }
+            return;
+        }
+        super.setText(text, type);
+    }
 }
