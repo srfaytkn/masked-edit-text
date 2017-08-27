@@ -42,13 +42,38 @@
         app:mask="#### #### #### ####" />
 
     <TextView
-        android:id="@+id/text_phone_number"
+        android:id="@+id/text_expiry_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_card_number" />
+
+    <com.srfaytkn.android.maskededittextlib.MaskedEditText
+        android:id="@+id/input_card_expiry_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Expiry Date"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:maxLines="1"
+        app:allowedChars="1234567890"
+        app:completeWith="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_expiry_date"
+        app:mask="##/##" />
+
+    <TextView
+        android:id="@+id/text_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_card_expiry_date" />
 
     <com.srfaytkn.android.maskededittextlib.MaskedEditText
         android:id="@+id/input_phone_number"

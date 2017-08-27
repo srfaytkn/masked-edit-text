@@ -11,10 +11,12 @@ import com.srfaytkn.android.maskededittextlib.MaskedEditText;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private MaskedEditText cardNumberInput;
+    private MaskedEditText expiryDateInput;
     private MaskedEditText phoneNumberInput;
 
     private TextView cardNumberText;
     private TextView cardNumberUnMaskedText;
+    private TextView expiryDateText;
     private TextView phoneNumberText;
 
     private Button showResultButton;
@@ -30,10 +32,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void findViews() {
         cardNumberInput = findViewById(R.id.input_card_number);
+        expiryDateInput = findViewById(R.id.input_card_expiry_date);
         phoneNumberInput = findViewById(R.id.input_phone_number);
 
         cardNumberText = findViewById(R.id.text_card_number);
         cardNumberUnMaskedText = findViewById(R.id.text_card_number_unmasked);
+        expiryDateText = findViewById(R.id.text_expiry_date);
         phoneNumberText = findViewById(R.id.text_phone_number);
 
         showResultButton = findViewById(R.id.button_show_result);
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cardNumberText.setText(cardNumberInput.getCompletedText());
         cardNumberUnMaskedText.setText(cardNumberInput.getUnMaskedText());
 
+        expiryDateText.setText(expiryDateInput.getCompletedText());
         phoneNumberText.setText(phoneNumberInput.getText().toString());
     }
 }

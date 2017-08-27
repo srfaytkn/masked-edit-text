@@ -99,11 +99,14 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
         StringBuilder text = new StringBuilder();
 
         char[] textChars = getText().toString().toCharArray();
-        for (char textChar : textChars) {
-            if (allowedChars.indexOf(textChar) > -1) {
-                text.append(textChar);
+        char[] maskChars = mask.toCharArray();
+
+        for (int i = 0; i < textChars.length; i++) {
+            if (allowedChars.indexOf(textChars[i]) > -1 && allowedChars.indexOf(maskChars[i]) == -1) {
+                text.append(textChars[i]);
             }
         }
+
 
         return text.toString();
     }
