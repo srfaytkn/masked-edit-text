@@ -99,38 +99,16 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
         StringBuilder text = new StringBuilder();
 
         char[] textChars = getText().toString().toCharArray();
-        char[] maskChars = mask.toCharArray();
-
-        for (int i = 0; i < textChars.length; i++) {
-            if (maskChars[i] == maskedSymbol && allowedChars.indexOf(textChars[i]) > -1) {
-                text.append(textChars[i]);
+        for (char textChar : textChars) {
+            if (allowedChars.indexOf(textChar) > -1) {
+                text.append(textChar);
             }
         }
 
         return text.toString();
     }
 
-    private void addText() {
-        Editable s = getEditableText();
-        if (locked) {
-            return;
-        }
-
-        locked = true;
-
-        if (lastText.trim().equals(s.toString().trim()) && s.length() > 0) {
-            int startIndex = s.length();
-
-            for (; startIndex > 0; startIndex--) {
-                if (mask.charAt(startIndex) == maskedSymbol) {
-                    break;
-                }
-            }
-
-            s.delete(startIndex, s.length());
-        }
-
-        String text = getUnMaskedText().trim();
+    private String createText(String text) {
         StringBuilder stringBuilder = new StringBuilder();
         int textIndex = 0;
 
@@ -146,7 +124,30 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
             }
         }
 
-        lastText = stringBuilder.toString();
+        return stringBuilder.toString();
+    }
+
+    private void addText() {
+        Editable s = getEditableText();
+        if (locked) {
+            return;
+        }
+
+        locked = true;
+
+        if (lastText.length() > s.toString().length()) {
+            int startIndex = s.length();
+
+            for (; startIndex > 0; startIndex--) {
+                if (mask.charAt(startIndex) == maskedSymbol) {
+                    break;
+                }
+            }
+
+            s.delete(startIndex, s.length());
+        }
+
+        lastText = createText(getUnMaskedText().trim());
         s.replace(0, s.length(), lastText);
 
         locked = false;
